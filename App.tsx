@@ -94,7 +94,7 @@ const App: React.FC = () => {
         pauseOnHover
         closeButton={true}
         toastClassName={() => {
-          return `relative flex p-1 min-h-10 rounded-full justify-between overflow-hidden cursor-pointer text-white shadow-lg border border-white/5 toast-gradient-border`;
+          return `relative flex justify-between overflow-hidden cursor-pointer text-white shadow-lg border border-white/5 toast-gradient-border`;
         }}
         bodyClassName="relative z-10 toast-body-dark"
         progressClassName="fantansy-progress-bar"

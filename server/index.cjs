@@ -17,8 +17,8 @@ app.post('/api/contact', async (req, res) => {
   }
 
   // 2. Extract and validate form data from the request body
-  const { name, contact, subject, message } = req.body;
-  if (!name || !contact || !subject || !message) {
+  const { name, email, message } = req.body;
+  if (!name || !email || !message) {
     return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
 
@@ -36,12 +36,11 @@ app.post('/api/contact', async (req, res) => {
     const mailOptions = {
       from: `"${name}" <${process.env.GMAIL_USER}>`,
       to: 'armaansiddiqui.mbd@gmail.com', // **Your actual email address where you want to receive messages**
-      replyTo: contact,
-      subject: `Portfolio Contact: ${subject}`,
+      replyTo: email,
+      subject: `Portfolio Contact from ${name}`,
       text: `
         Name: ${name}
-        Contact: ${contact}
-        Subject: ${subject}
+        Email: ${email}
 
         Message:
         ${message}
@@ -49,8 +48,7 @@ app.post('/api/contact', async (req, res) => {
       html: `
         <h3>New Contact Message from Portfolio</h3>
         <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Contact:</strong> ${contact}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Email:</strong> ${email}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
       `,

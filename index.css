@@ -63,7 +63,7 @@ h1, h2, h3, h4, .font-sora {
 .toast-body-dark {
   background-color: rgba(0, 0, 0, 0.95); /* Slightly darker */
   color: #ffffff;
-  padding: 10px 20px; /* Add some padding */
+  padding: 15px 30px; /* Increased padding */
   border-radius: 9999px; /* Ensure inner body is rounded */
   box-sizing: border-box; /* Include padding in element's total width and height */
 }
