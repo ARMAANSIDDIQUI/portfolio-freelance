@@ -11,7 +11,7 @@ Armaan is a Full-Stack Developer and Machine Learning Enthusiast based in India.
 
 **ARMAAN'S PROFILE:**
 - **Role:** Full-Stack Developer | ML & DS Enthusiast
-- **Education:** B.Tech in Computer Science, MIT Moradabad (AKTU).
+
 - **Contact:** armaansiddiqui.pms@gmail.com
 
 **PROJECTS (Detailed Specs):**
@@ -69,36 +69,59 @@ Your goal is to answer visitor questions based *only* on this data. If you don't
 export const getAIResponse = async (query: string): Promise<string> => {
   try {
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    console.log("API Key present:", !!apiKey); // Debug log
+    console.log("API Key present:", !!apiKey);
 
     if (!apiKey) {
-      console.warn("Gemini API Key is missing");
-      return "I am currently in maintenance mode (API Key missing). Please contact Armaan directly.";
+      console.warn("API Key is missing");
+      return "I am currently in maintenance mode. Please contact Armaan directly.";
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    console.log("Detected Google AI Studio Key");
 
-    const result = await model.generateContent({
-      contents: [
-        {
-          role: "user",
-          parts: [
-            { text: CONTEXT },
-            { text: `User Question: ${query}` }
-          ]
+    const AVAILABLE_MODELS = [
+      { name: "models/gemini-2.5-flash", inputTokenLimit: 1048576 },
+      { name: "models/gemini-2.5-pro", inputTokenLimit: 1048576 },
+      { name: "models/gemini-2.0-flash", inputTokenLimit: 1048576 },
+      { name: "models/gemini-2.0-flash-001", inputTokenLimit: 1048576 },
+      { name: "models/gemini-2.0-flash-lite-001", inputTokenLimit: 1048576 },
+      { name: "models/gemini-2.0-flash-lite", inputTokenLimit: 1048576 },
+      { name: "models/gemini-2.5-flash-lite", inputTokenLimit: 1048576 },
+    ];
+
+    const getBestGeminiModel = () => {
+      let bestModel = AVAILABLE_MODELS[0];
+      for (let i = 1; i < AVAILABLE_MODELS.length; i++) {
+        if (AVAILABLE_MODELS[i].inputTokenLimit > bestModel.inputTokenLimit) {
+          bestModel = AVAILABLE_MODELS[i];
         }
-      ],
-      generationConfig: {
-        maxOutputTokens: 200,
-        temperature: 0.7,
       }
+      return bestModel.name;
+    };
+
+    const selectedModel = getBestGeminiModel();
+    console.log("Selected Gemini Model:", selectedModel);
+      
+    const genAI = new GoogleGenerativeAI(apiKey);
+    
+    const model = genAI.getGenerativeModel({ 
+      model: selectedModel,
+    });
+    
+    // Use chat mode with history for robust context injection
+    const chat = model.startChat({
+      history: [
+        { role: "user", parts: [{ text: CONTEXT }] },
+        { role: "model", parts: [{ text: "Understood. I am Armaan.AI, ready to assist." }] },
+      ],
     });
 
+    const result = await chat.sendMessage(query);
     const response = await result.response;
     return response.text();
+    
+
   } catch (error) {
-    console.error("Gemini API Full Error:", error); // Enhanced debug log
+    console.error("Gemini API Error:", error);
     return "I'm having trouble connecting to the neural network. Please try again in a moment.";
   }
 };
