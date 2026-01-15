@@ -15,7 +15,8 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/contact', {
+      const apiUrl = import.meta.env.VITE_API_BASE_URL ? `${import.meta.env.VITE_API_BASE_URL}/api/contact` : '/api/contact';
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+    <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-24">
       <ToastContainer 
         position="bottom-right"
         autoClose={5000}
