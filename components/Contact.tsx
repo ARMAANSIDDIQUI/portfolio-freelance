@@ -15,7 +15,7 @@ const Contact: React.FC = () => {
     e.preventDefault(); // Prevent default form submission reload
 
     // Optional: Client-side validation (e.g., check for empty fields, valid email format)
-    if (!form.name || !form.contact || !form.subject || !form.message) {
+    if (!form.name || !form.contact || !form.message) {
       toast.warning("Please fill in all fields.");
       return;
     }
@@ -45,7 +45,7 @@ const Contact: React.FC = () => {
         toast.success("Message sent successfully!");
         setStatus("");
         setStatusType("");
-        setForm({ name: "", contact: "", subject: "", message: "" }); // Clear the form
+        setForm({ name: "", contact: "", message: "" }); // Clear the form
         // Optional: Implement cooldown logic here (e.g., store timestamp in localStorage)
       } else {
         toast.error(data.message || "Failed to send. Try again later.");
@@ -152,18 +152,7 @@ const Contact: React.FC = () => {
               />
             </div>
 
-            <div className="space-y-2 group">
-              <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Subject</label>
-              <input
-                required
-                type="text"
-                name="subject" // Add name attribute
-                value={form.subject}
-                onChange={(e) => setForm({...form, subject: e.target.value})}
-                className="w-full bg-transparent border border-white/10 rounded-lg py-4 px-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
-                placeholder="Briefly, what's your mission?"
-              />
-            </div>
+
 
             <div className="space-y-2 group">
               <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Objective</label>

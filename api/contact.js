@@ -29,11 +29,10 @@ module.exports = async (req, res) => {
       from: `"${name}" <${process.env.GMAIL_USER}>`, // The authenticated sender's email
       to: 'armaansiddiqui.mbd@gmail.com', // **Your actual email address where you want to receive messages**
       replyTo: contact, // Allows you to reply directly to the user's contact info
-      subject: `Portfolio Contact: ${subject}`, // Subject line for the email you receive
+      subject: `Portfolio Contact from ${name}`, // Subject line for the email you receive
       text: `
         Name: ${name}
         Contact: ${contact}
-        Subject: ${subject}
 
         Message:
         ${message}
@@ -42,7 +41,6 @@ module.exports = async (req, res) => {
         <h3>New Contact Message from Portfolio</h3>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Contact:</strong> ${contact}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
       `,
