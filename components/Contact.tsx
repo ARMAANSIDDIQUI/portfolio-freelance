@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-24 items-center py-20">
+    <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 lg:gap-24 items-center py-20">
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
