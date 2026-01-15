@@ -83,7 +83,7 @@ const App: React.FC = () => {
 
       {/* Moved ToastContainer to App.tsx to avoid layout issues */}
       <ToastContainer 
-        position="bottom-right"
+        position="top-center"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -104,7 +104,7 @@ const App: React.FC = () => {
             default:
               colorClass = 'bg-neutral-800'; // Black theme for others
           }
-          return `relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer ${colorClass} text-white shadow-lg`;
+          return `relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer ${colorClass} text-white shadow-lg border border-white/5`;
         }}
         progressClassName="fantansy-progress-bar"
       />

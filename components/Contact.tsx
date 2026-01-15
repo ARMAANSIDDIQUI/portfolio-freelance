@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+// Removed: import { toast, ToastContainer } from 'react-toastify';
+// Removed: import 'react-toastify/dist/ReactToastify.css';
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
@@ -27,43 +28,13 @@ const Contact: React.FC = () => {
       if (response.ok) {
         setSubmitted(true);
         setFormState({ name: '', email: '', message: '' });
-        toast.success('Message sent successfully!', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          style: { borderRadius: '10px' }
-        });
+        toast.success('Message sent successfully!');
       } else {
-        toast.error('Failed to send message. Please try again.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          style: { borderRadius: '10px' }
-        });
+        toast.error('Failed to send message. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      toast.error('An error occurred. Please try again later.', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        style: { borderRadius: '10px' }
-      });
+      toast.error('An error occurred. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
@@ -71,19 +42,6 @@ const Contact: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-24 items-center py-20">
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        toastClassName={() => "relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-neutral-900 border border-white/5"}
-      />
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
