@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
@@ -24,12 +26,13 @@ const Contact: React.FC = () => {
       if (response.ok) {
         setSubmitted(true);
         setFormState({ name: '', email: '', message: '' });
+        toast.success('Message sent successfully!'); // Success toast
       } else {
-        alert('Failed to send message. Please try again.');
+        toast.error('Failed to send message. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred. Please try again later.');
+      toast.error('An error occurred. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
@@ -37,6 +40,21 @@ const Contact: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark" // Black background for toasts
+        toastClassName={() => "relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-neutral-800 text-white shadow-lg"}
+        bodyClassName={() => "text-sm font-white font-med block p-3"}
+        progressClassName="fantansy-progress-bar"
+      />
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
