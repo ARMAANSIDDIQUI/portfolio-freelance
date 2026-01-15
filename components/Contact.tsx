@@ -2,11 +2,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const Contact: React.FC = () => {
-  const [form, setForm] = useState({ name: '', contact: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState(""); // For displaying messages to the user
   const [statusType, setStatusType] = useState(""); // success | error | warning | loading
 
@@ -15,14 +14,13 @@ const Contact: React.FC = () => {
     e.preventDefault(); // Prevent default form submission reload
 
     // Optional: Client-side validation (e.g., check for empty fields, valid email format)
-    if (!form.name || !form.contact || !form.message) {
+    if (!form.name || !form.email || !form.message) {
       toast.warning("Please fill in all fields.");
       return;
     }
     const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-    const isEmail = emailPattern.test(form.contact);
-    if (!isEmail && isNaN(Number(form.contact))) { // Basic check for email or number
-      toast.warning("Please enter a valid email or phone number.");
+    if (!emailPattern.test(form.email)) {
+      toast.warning("Please enter a valid email address.");
       return;
     }
 
@@ -45,7 +43,7 @@ const Contact: React.FC = () => {
         toast.success("Message sent successfully!");
         setStatus("");
         setStatusType("");
-        setForm({ name: "", contact: "", message: "" }); // Clear the form
+        setForm({ name: "", email: "", message: "" }); // Clear the form
       } else {
         toast.error(data.message || "Failed to send. Try again later.");
         setStatus("");
@@ -139,29 +137,27 @@ const Contact: React.FC = () => {
             </div>
             
             <div className="space-y-2 group">
-              <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Contact (Email or Phone)</label>
+              <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Encryption Key (Email)</label>
               <input
                 required
-                type="text" // Changed to text to accommodate phone numbers
-                name="contact" // Add name attribute
-                value={form.contact}
-                onChange={(e) => setForm({...form, contact: e.target.value})}
+                type="email" 
+                name="email" 
+                value={form.email}
+                onChange={(e) => setForm({...form, email: e.target.value})}
                 className="w-full bg-transparent border border-white/10 rounded-lg py-4 px-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
-                placeholder="you@domain.com or +1234567890"
+                placeholder="you@domain.com"
               />
             </div>
-
-
 
             <div className="space-y-2 group">
               <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Objective</label>
               <textarea 
                 required
                 rows={4}
-                name="message" // Add name attribute
+                name="message" 
                 value={form.message}
                 onChange={(e) => setForm({...form, message: e.target.value})}
-                className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 resize-none text-lg font-medium"
+                className="w-full bg-transparent border border-white/10 rounded-lg py-4 px-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 resize-none text-lg font-medium"
                 placeholder="Mission parameters..."
               />
             </div>
@@ -182,8 +178,7 @@ const Contact: React.FC = () => {
           </form>
         )}
       </motion.div>
-      <ToastContainer />
-    </div>
+      </div>
   );
 };
 

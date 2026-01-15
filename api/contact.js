@@ -8,8 +8,8 @@ module.exports = async (req, res) => {
   }
 
   // 2. Extract and validate form data from the request body
-  const { name, contact, subject, message } = req.body;
-  if (!name || !contact || !subject || !message) {
+  const { name, email, message } = req.body;
+  if (!name || !email || !message) {
     return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
 
@@ -28,11 +28,11 @@ module.exports = async (req, res) => {
     const mailOptions = {
       from: `"${name}" <${process.env.GMAIL_USER}>`, // The authenticated sender's email
       to: 'armaansiddiqui.mbd@gmail.com', // **Your actual email address where you want to receive messages**
-      replyTo: contact, // Allows you to reply directly to the user's contact info
+      replyTo: email, // Allows you to reply directly to the user's contact info
       subject: `Portfolio Contact from ${name}`, // Subject line for the email you receive
       text: `
         Name: ${name}
-        Contact: ${contact}
+        Email: ${email}
 
         Message:
         ${message}
@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
       html: `
         <h3>New Contact Message from Portfolio</h3>
         <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Contact:</strong> ${contact}</p>
+        <p><strong>Email:</strong> ${email}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
       `,

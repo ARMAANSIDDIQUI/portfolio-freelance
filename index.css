@@ -38,33 +38,60 @@ h1, h2, h3, h4, .font-sora {
 }
 
 /* Custom Toastify Styles */
-@keyframes rotateGradient {
-  from {
-    transform: rotate(0deg);
-  }
+@keyframes rotateAngle {
   to {
-    transform: rotate(360deg);
+    --angle: 360deg;
   }
 }
 
 .toast-gradient-border {
   position: relative;
-  overflow: hidden; /* Ensures the gradient doesn't go outside */
-  border-radius: 9999px; /* Completely rounded sides */
+  overflow: hidden;
+  --angle: 0deg; /* Initialize custom property */
+  animation: rotateAngle 4s linear infinite; /* Animate the custom property */
 }
 
 .toast-gradient-border::before {
   content: '';
   position: absolute;
-  inset: -2px; /* Controls border thickness */
-  background: conic-gradient(from var(--angle, 0deg), #ff0000, #ffa500, #ff0000);
-  border-radius: 9999px; /* Inherit from parent */
-  animation: rotateGradient 4s linear infinite;
+  inset: -2px;
+  background: conic-gradient(from var(--angle), #ff0000, #ffa500, #ff0000); /* Use var(--angle) */
+  border-radius: 9999px; /* This ensures the pseudo-element is rounded */
   z-index: -1;
 }
 
 .toast-body-dark {
-  background-color: rgba(0, 0, 0, 0.9); /* Black background */
-  color: #ffffff; /* White text for contrast */
-  border-radius: 9999px; /* Rounded sides */
+  background-color: rgba(0, 0, 0, 0.95); /* Slightly darker */
+  color: #ffffff;
+  padding: 10px 20px; /* Add some padding */
+  border-radius: 9999px; /* Ensure inner body is rounded */
+  box-sizing: border-box; /* Include padding in element's total width and height */
 }
+
+/* For the close button, if it needs styling */
+.Toastify__close-button {
+  color: #fff;
+  opacity: 1;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-right: 5px;
+  margin-top: 2px;
+  font-weight: bold;
+}
+
+/* For the progress bar */
+.fantansy-progress-bar {
+  background: linear-gradient(to right, #ff0000, #ffa500); /* Red-orange progress bar */
+  height: 4px; /* Adjust height as needed */
+  border-radius: 9999px; /* Rounded progress bar */
+  opacity: 0.7;
+}
+
+/* For the toast container itself to ensure it's not cutting off the border */
+.Toastify__toast {
+  padding: 0 !important; /* Remove default padding to allow gradient to be flush */
+  background: transparent !important; /* Make sure the toast itself is transparent */
+}
+

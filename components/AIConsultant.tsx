@@ -32,7 +32,7 @@ const AIConsultant: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-12 right-12 z-[9999]">
+    <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 lg:bottom-12 lg:right-12 z-[9999]">
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
