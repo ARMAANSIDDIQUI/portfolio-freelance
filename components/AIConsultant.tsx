@@ -146,7 +146,7 @@ const AIConsultant: React.FC = () => {
           </form>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,60 +1,63 @@
 const nodemailer = require('nodemailer');
-const cors = require('cors');
 require('dotenv').config();
 
-const allowCors = (fn) => async (req, res) => {
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Adjust this for production
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Date, X-Api-Version, Content-Type'
-  );
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-  return await fn(req, res);
-};
-
-const handler = async (req, res) => {
+module.exports = async (req, res) => {
+  // 1. Only allow POST requests for security
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 
-  const { name, email, message } = req.body;
-
-  if (!name || !email || !message) {
-    return res.status(400).json({ message: 'All fields are required.' });
+  // 2. Extract and validate form data from the request body
+  const { name, contact, subject, message } = req.body;
+  if (!name || !contact || !subject || !message) {
+    return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
-
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: process.env.GMAIL_USER,
-    to: 'armaansiddiqui.pms@gmail.com', // Recipient email address
-    replyTo: email,
-    subject: `Portfolio Contact from ${name}`,
-    text: `You have received a new message from your portfolio website.\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-  };
 
   try {
+    // 3. Create a Nodemailer transporter
+    // This configures how Nodemailer will send emails (using Gmail in this case).
+    const transporter = nodemailer.createTransport({
+      service: 'gmail', // Use 'gmail' for simplicity with Gmail accounts
+      auth: {
+        user: process.env.GMAIL_USER, // Your Gmail address from environment variables
+        pass: process.env.GMAIL_APP_PASSWORD, // Your App Password from environment variables
+      },
+    });
+
+    // 4. Define email options (who is it from, to, subject, content)
+    const mailOptions = {
+      from: `"${name}" <${process.env.GMAIL_USER}>`, // The authenticated sender's email
+      to: 'armaansiddiqui.mbd@gmail.com', // **Your actual email address where you want to receive messages**
+      replyTo: contact, // Allows you to reply directly to the user's contact info
+      subject: `Portfolio Contact: ${subject}`, // Subject line for the email you receive
+      text: `
+        Name: ${name}
+        Contact: ${contact}
+        Subject: ${subject}
+
+        Message:
+        ${message}
+      `,
+      html: `
+        <h3>New Contact Message from Portfolio</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Contact:</strong> ${contact}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+      `,
+    };
+
+    // 5. Send the email
     await transporter.sendMail(mailOptions);
-    console.log(`Email sent from ${email}`);
-    res.status(200).json({ message: 'Email sent successfully' });
+    console.log('Email sent successfully via Serverless Function');
+
+    // 6. Send a success response to the frontend
+    return res.status(200).json({ success: true, message: 'Message sent successfully!' });
+
   } catch (error) {
     console.error('Error sending email:', error);
-    if (error && typeof error === 'object' && 'message' in error) {
-      console.error('Error details:', error.message);
-    }
-    res.status(500).json({ message: 'Failed to send email', error: error.message });
+    // 7. Send an error response to the frontend
+    return res.status(500).json({ success: false, message: 'Failed to send message.' });
   }
 };
-
-module.exports = allowCors(handler);

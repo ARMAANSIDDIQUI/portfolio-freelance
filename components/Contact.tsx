@@ -2,41 +2,62 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+
 // Removed: import { toast, ToastContainer } from 'react-toastify';
 // Removed: import 'react-toastify/dist/ReactToastify.css';
 
 const Contact: React.FC = () => {
-  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: '', contact: '', subject: '', message: '' });
+  const [status, setStatus] = useState(""); // For displaying messages to the user
+  const [statusType, setStatusType] = useState(""); // success | error | warning | loading
+
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
+    e.preventDefault(); // Prevent default form submission reload
+
+    // Optional: Client-side validation (e.g., check for empty fields, valid email format)
+    if (!form.name || !form.contact || !form.subject || !form.message) {
+      setStatus("Please fill in all fields.");
+      setStatusType("warning");
+      return;
+    }
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    const isEmail = emailPattern.test(form.contact);
+    if (!isEmail && isNaN(Number(form.contact))) { // Basic check for email or number
+      setStatus("Please enter a valid email or phone number.");
+      setStatusType("warning");
+      return;
+    }
+
+
+    setStatus("Sending...");
+    setStatusType("loading");
+
     try {
       const apiUrl = import.meta.env.VITE_API_BASE_URL ? `${import.meta.env.VITE_API_BASE_URL}/api/contact` : '/api/contact';
-      const response = await fetch(apiUrl, {
+      const response = await fetch(apiUrl, { // The endpoint matches your serverless function's path
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formState),
+        body: JSON.stringify(form), // Send the form data as JSON
       });
 
-      if (response.ok) {
-        setSubmitted(true);
-        setFormState({ name: '', email: '', message: '' });
-        toast.success('Message sent successfully!');
+      const data = await response.json(); // Parse the JSON response
+
+      if (response.ok && data.success) {
+        setStatus("Message sent successfully!");
+        setStatusType("success");
+        setForm({ name: "", contact: "", subject: "", message: "" }); // Clear the form
+        // Optional: Implement cooldown logic here (e.g., store timestamp in localStorage)
       } else {
-        toast.error('Failed to send message. Please try again.');
+        setStatus(data.message || "Failed to send. Try again later.");
+        setStatusType("error");
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('An error occurred. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
+      console.error("Error sending message:", error);
+      setStatus("Failed to send. Server error.");
+      setStatusType("error");
     }
   };
 
@@ -84,7 +105,7 @@ const Contact: React.FC = () => {
       >
         {/* <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl"></div> */}
         
-        {submitted ? (
+        {status === "success" ? (
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -98,7 +119,7 @@ const Contact: React.FC = () => {
             <h4 className="text-3xl font-black mb-4 uppercase">Encoded & Sent.</h4>
             <p className="text-neutral-500 mb-10">Armaan will review your transmission shortly.</p>
             <button 
-              onClick={() => setSubmitted(false)}
+              onClick={() => setStatus("")} // Reset status to allow new submission
               className="px-8 py-3 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:border-red-600 transition-all"
             >
               Reset Protocol
@@ -111,22 +132,37 @@ const Contact: React.FC = () => {
               <input 
                 required
                 type="text" 
-                value={formState.name}
-                onChange={(e) => setFormState({...formState, name: e.target.value})}
+                name="name" // Add name attribute
+                value={form.name}
+                onChange={(e) => setForm({...form, name: e.target.value})}
                 className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
                 placeholder="Full Name / Organization"
               />
             </div>
             
             <div className="space-y-2 group">
-              <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Encryption Key (Email)</label>
+              <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Contact (Email or Phone)</label>
               <input 
                 required
-                type="email" 
-                value={formState.email}
-                onChange={(e) => setFormState({...formState, email: e.target.value})}
+                type="text" // Changed to text to accommodate phone numbers
+                name="contact" // Add name attribute
+                value={form.contact}
+                onChange={(e) => setForm({...form, contact: e.target.value})}
                 className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
-                placeholder="you@domain.com"
+                placeholder="you@domain.com or +1234567890"
+              />
+            </div>
+
+            <div className="space-y-2 group">
+              <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Subject</label>
+              <input 
+                required
+                type="text" 
+                name="subject" // Add name attribute
+                value={form.subject}
+                onChange={(e) => setForm({...form, subject: e.target.value})}
+                className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
+                placeholder="Briefly, what's your mission?"
               />
             </div>
 
@@ -135,19 +171,30 @@ const Contact: React.FC = () => {
               <textarea 
                 required
                 rows={4}
-                value={formState.message}
-                onChange={(e) => setFormState({...formState, message: e.target.value})}
+                name="message" // Add name attribute
+                value={form.message}
+                onChange={(e) => setForm({...form, message: e.target.value})}
                 className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 resize-none text-lg font-medium"
                 placeholder="Mission parameters..."
               />
             </div>
             
+            {status && statusType !== "success" && ( // Display status messages if not success
+              <div className={`status-message text-center py-2 rounded-lg
+                ${statusType === "error" ? "bg-red-800 text-white" : ""}
+                ${statusType === "warning" ? "bg-yellow-800 text-white" : ""}
+                ${statusType === "loading" ? "bg-blue-800 text-white" : ""}
+              `}>
+                {status}
+              </div>
+            )}
+            
             <button 
-              disabled={isSubmitting}
+              disabled={statusType === "loading"} // Disable when sending
               type="submit"
               className="w-full py-8 bg-red-600 text-white font-black uppercase tracking-[0.3em] rounded-2xl hover:bg-red-700 transition-all flex items-center justify-center gap-4 disabled:opacity-50 shadow-[0_10px_40px_rgba(255,0,0,0.2)] hover:shadow-[0_10px_60px_rgba(255,0,0,0.4)] group"
             >
-              {isSubmitting ? (
+              {statusType === "loading" ? (
                 <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>Initiate Sync <span className="text-2xl group-hover:translate-x-2 transition-transform">→</span></>
