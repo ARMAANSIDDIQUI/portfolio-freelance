@@ -32,11 +32,11 @@ const AIConsultant: React.FC = () => {
   };
 
   return (
-  <>
+    <div className="fixed bottom-12 right-12 z-[9999]">
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-12 right-12 z-[9999] group relative w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-2xl shadow-red-600/40 hover:scale-110 active:scale-95 transition-all"
+        className="group relative w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-2xl shadow-red-600/40 hover:scale-110 active:scale-95 transition-all"
       >
         <div className="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-20"></div>
         {isOpen ? (
@@ -52,7 +52,7 @@ const AIConsultant: React.FC = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-28 right-4 w-[calc(100vw-2rem)] max-w-sm sm:max-w-md max-h-[80vh] md:w-[400px] md:h-[500px] md:bottom-24 md:right-12 bg-neutral-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
+        <div className="absolute bottom-20 right-0 w-[calc(100vw-2rem)] max-w-sm sm:max-w-md max-h-[80vh] md:w-[400px] md:h-[500px] md:bottom-20 md:right-0 bg-neutral-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
           <div className="p-6 bg-neutral-800/50 border-b border-white/5 flex items-center gap-4">
             <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,7 +146,7 @@ const AIConsultant: React.FC = () => {
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
