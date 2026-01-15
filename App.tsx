@@ -32,8 +32,9 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-black overflow-x-hidden selection:bg-red-600 selection:text-white">
+    <>
       <AIConsultant />
+      <div className="relative min-h-screen bg-black overflow-x-hidden selection:bg-red-600 selection:text-white">
       <StarShower />
       <Navbar scrolled={scrolled} />
       
@@ -97,7 +98,8 @@ const App: React.FC = () => {
         bodyClassName="relative z-10 toast-body-dark"
         progressClassName="fantansy-progress-bar"
       />
-    </div>
+      </div>
+    </>
   );
 };
 
