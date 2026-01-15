@@ -2,12 +2,16 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../dist')));
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -39,6 +43,11 @@ app.post('/api/contact', async (req, res) => {
     }
     res.status(500).json({ message: 'Failed to send email', error: error.message });
   }
+});
+
+// All other GET requests not handled by the API will return the React app's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
 
 app.listen(PORT, () => {

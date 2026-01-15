@@ -103,7 +103,12 @@ const AIConsultant: React.FC = () => {
               "Can you tell me about the Chatorzzz project?",
               "What cloud platforms does Armaan use?",
               "What are Armaan's favorite frontend technologies?",
-              "What kind of databases does Armaan work with?"
+              "What kind of databases does Armaan work with?",
+              "What are your long-term career goals?",
+              "Can you describe your development workflow?",
+              "What is your approach to problem-solving?",
+              "Do you have experience with mobile development?",
+              "What frameworks are you proficient in?"
             ].map((suggestion) => (
               <button
                 key={suggestion}

@@ -74,61 +74,56 @@ Your goal is to answer visitor questions based *only* on this data. If you don't
 `;
 
 export const getAIResponse = async (query: string): Promise<string> => {
-  try {
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    console.log("API Key present:", !!apiKey);
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  console.log("API Key present:", !!apiKey);
 
-    if (!apiKey) {
-      console.warn("API Key is missing");
-      return "I am currently in maintenance mode. Please contact Armaan directly.";
-    }
-
-    console.log("Detected Google AI Studio Key");
-
-    const AVAILABLE_MODELS = [
-      { name: "models/gemini-2.5-flash", inputTokenLimit: 1048576 },
-      { name: "models/gemini-2.5-pro", inputTokenLimit: 1048576 },
-      { name: "models/gemini-2.0-flash", inputTokenLimit: 1048576 },
-      { name: "models/gemini-2.0-flash-001", inputTokenLimit: 1048576 },
-      { name: "models/gemini-2.0-flash-lite-001", inputTokenLimit: 1048576 },
-      { name: "models/gemini-2.0-flash-lite", inputTokenLimit: 1048576 },
-      { name: "models/gemini-2.5-flash-lite", inputTokenLimit: 1048576 },
-    ];
-
-    const getBestGeminiModel = () => {
-      let bestModel = AVAILABLE_MODELS[0];
-      for (let i = 1; i < AVAILABLE_MODELS.length; i++) {
-        if (AVAILABLE_MODELS[i].inputTokenLimit > bestModel.inputTokenLimit) {
-          bestModel = AVAILABLE_MODELS[i];
-        }
-      }
-      return bestModel.name;
-    };
-
-    const selectedModel = getBestGeminiModel();
-    console.log("Selected Gemini Model:", selectedModel);
-      
-    const genAI = new GoogleGenerativeAI(apiKey);
-    
-    const model = genAI.getGenerativeModel({ 
-      model: selectedModel,
-    });
-    
-    // Use chat mode with history for robust context injection
-    const chat = model.startChat({
-      history: [
-        { role: "user", parts: [{ text: CONTEXT }] },
-        { role: "model", parts: [{ text: "Understood. I am Armaan.AI, ready to assist." }] },
-      ],
-    });
-
-    const result = await chat.sendMessage(query);
-    const response = await result.response;
-    return response.text();
-    
-
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    return "I'm having trouble connecting to the neural network. Please try again in a moment.";
+  if (!apiKey) {
+    console.warn("API Key is missing");
+    return "I am currently in maintenance mode. Please contact Armaan directly.";
   }
+
+  console.log("Detected Google AI Studio Key");
+
+  const AVAILABLE_MODELS = [
+    { name: "models/gemini-2.5-flash", priority: 1 },
+    { name: "models/gemini-2.5-pro", priority: 2 },
+    { name: "models/gemini-2.0-flash", priority: 3 },
+    { name: "models/gemini-2.0-flash-001", priority: 4 },
+    { name: "models/gemini-2.0-flash-lite", priority: 5 },
+    { name: "models/gemini-2.0-flash-lite-001", priority: 6 },
+    { name: "models/gemini-2.5-flash-lite", priority: 7 },
+  ];
+
+  // Sort models by priority (lower number = higher priority)
+  AVAILABLE_MODELS.sort((a, b) => a.priority - b.priority);
+
+  for (const modelConfig of AVAILABLE_MODELS) {
+    try {
+      console.log(`Attempting to use Gemini Model: ${modelConfig.name}`);
+      const genAI = new GoogleGenerativeAI(apiKey);
+      
+      const model = genAI.getGenerativeModel({ 
+        model: modelConfig.name,
+      });
+      
+      // Use chat mode with history for robust context injection
+      const chat = model.startChat({
+        history: [
+          { role: "user", parts: [{ text: CONTEXT }] },
+          { role: "model", parts: [{ text: "Understood. I am Armaan.AI, ready to assist." }] },
+        ],
+      });
+
+      const result = await chat.sendMessage(query);
+      const response = await result.response;
+      return response.text();
+      
+    } catch (error) {
+      console.error(`Gemini API Error with ${modelConfig.name}:`, error);
+      // If this model fails, try the next one in the loop
+    }
+  }
+
+  // If all models fail
+  return "I'm having trouble connecting to the neural network through any available model. Please try again in a moment.";
 };
