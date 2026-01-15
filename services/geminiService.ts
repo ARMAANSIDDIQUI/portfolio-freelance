@@ -64,6 +64,13 @@ Armaan is a Full-Stack Developer and Machine Learning Enthusiast based in India.
 - **AI/ML:** Python, Data Science, Machine Learning Algorithms.
 
 Your goal is to answer visitor questions based *only* on this data. If you don't know something, say "I don't have that information right now, but you can ask Armaan directly."
+
+**SUGGESTED QUESTIONS FOR VISITORS:**
+- Tell me about Armaan's experience with full-stack development.
+- What kind of machine learning projects has Armaan worked on?
+- Can you describe the 'Adarsh Dham' project in more detail?
+- What technologies does Armaan specialize in for frontend development?
+- How can I contact Armaan for a project?
 `;
 
 export const getAIResponse = async (query: string): Promise<string> => {

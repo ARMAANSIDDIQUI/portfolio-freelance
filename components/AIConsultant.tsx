@@ -95,10 +95,15 @@ const AIConsultant: React.FC = () => {
 
           <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar mask-gradient">
             {[
-              "Tell me about Adarsh Dham", 
-              "What is your tech stack?", 
-              "Do you know Machine Learning?", 
-              "How can I hire you?"
+              "Tell me about Adarsh Dham",
+              "What is your tech stack?",
+              "Do you know Machine Learning?",
+              "How can I hire you?",
+              "What is Armaan's experience with Node.js?",
+              "Can you tell me about the Chatorzzz project?",
+              "What cloud platforms does Armaan use?",
+              "What are Armaan's favorite frontend technologies?",
+              "What kind of databases does Armaan work with?"
             ].map((suggestion) => (
               <button
                 key={suggestion}

@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -22,7 +22,7 @@ app.post('/api/contact', async (req, res) => {
 
   const mailOptions = {
     from: process.env.GMAIL_USER, // Sender address
-    to: process.env.GMAIL_USER,   // List of receivers
+    to: 'armaansiddiqui.pms@gmail.com',   // List of receivers
     replyTo: email,               // User's email
     subject: `Portfolio Contact from ${name}`,
     text: `You have received a new message from your portfolio website.\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
