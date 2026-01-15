@@ -33,6 +33,7 @@ const App: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-black overflow-x-hidden selection:bg-red-600 selection:text-white">
+      <AIConsultant />
       <StarShower />
       <Navbar scrolled={scrolled} />
       
@@ -79,8 +80,6 @@ const App: React.FC = () => {
         <p>&copy; {new Date().getFullYear()} Armaan Siddiqui. Built for performance.</p>
       </footer>
 
-      <AIConsultant />
-
       {/* Moved ToastContainer to App.tsx to avoid layout issues */}
       <ToastContainer 
         position="top-center"
@@ -92,20 +91,10 @@ const App: React.FC = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        toastClassName={({ type }) => {
-          let colorClass;
-          switch (type) {
-            case 'success':
-              colorClass = 'bg-red-600';
-              break;
-            case 'error':
-              colorClass = 'bg-orange-600';
-              break;
-            default:
-              colorClass = 'bg-neutral-800'; // Black theme for others
-          }
-          return `relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer ${colorClass} text-white shadow-lg border border-white/5`;
+        toastClassName={() => {
+          return `relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer text-white shadow-lg border border-white/5 toast-gradient-border`;
         }}
+        bodyClassName="relative z-10 toast-body-dark"
         progressClassName="fantansy-progress-bar"
       />
     </div>

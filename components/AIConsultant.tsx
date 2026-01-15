@@ -36,7 +36,7 @@ const AIConsultant: React.FC = () => {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-12 right-12 z-[100] group relative w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-2xl shadow-red-600/40 hover:scale-110 active:scale-95 transition-all"
+        className="fixed bottom-12 right-12 z-[9999] group relative w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-2xl shadow-red-600/40 hover:scale-110 active:scale-95 transition-all"
       >
         <div className="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-20"></div>
         {isOpen ? (
