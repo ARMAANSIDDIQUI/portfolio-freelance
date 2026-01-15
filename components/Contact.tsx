@@ -2,9 +2,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
-
-// Removed: import { toast, ToastContainer } from 'react-toastify';
-// Removed: import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact: React.FC = () => {
   const [form, setForm] = useState({ name: '', contact: '', subject: '', message: '' });
@@ -17,18 +16,15 @@ const Contact: React.FC = () => {
 
     // Optional: Client-side validation (e.g., check for empty fields, valid email format)
     if (!form.name || !form.contact || !form.subject || !form.message) {
-      setStatus("Please fill in all fields.");
-      setStatusType("warning");
+      toast.warning("Please fill in all fields.");
       return;
     }
     const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     const isEmail = emailPattern.test(form.contact);
     if (!isEmail && isNaN(Number(form.contact))) { // Basic check for email or number
-      setStatus("Please enter a valid email or phone number.");
-      setStatusType("warning");
+      toast.warning("Please enter a valid email or phone number.");
       return;
     }
-
 
     setStatus("Sending...");
     setStatusType("loading");
@@ -46,18 +42,21 @@ const Contact: React.FC = () => {
       const data = await response.json(); // Parse the JSON response
 
       if (response.ok && data.success) {
-        setStatus("Message sent successfully!");
-        setStatusType("success");
+        toast.success("Message sent successfully!");
+        setStatus("");
+        setStatusType("");
         setForm({ name: "", contact: "", subject: "", message: "" }); // Clear the form
         // Optional: Implement cooldown logic here (e.g., store timestamp in localStorage)
       } else {
-        setStatus(data.message || "Failed to send. Try again later.");
-        setStatusType("error");
+        toast.error(data.message || "Failed to send. Try again later.");
+        setStatus("");
+        setStatusType("");
       }
     } catch (error) {
       console.error("Error sending message:", error);
-      setStatus("Failed to send. Server error.");
-      setStatusType("error");
+      toast.error("Failed to send. Server error.");
+      setStatus("");
+      setStatusType("");
     }
   };
 
@@ -129,39 +128,39 @@ const Contact: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-10">
             <div className="space-y-2 group">
               <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Identification</label>
-              <input 
+              <input
                 required
-                type="text" 
+                type="text"
                 name="name" // Add name attribute
                 value={form.name}
                 onChange={(e) => setForm({...form, name: e.target.value})}
-                className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
+                className="w-full bg-transparent border border-white/10 rounded-lg py-4 px-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
                 placeholder="Full Name / Organization"
               />
             </div>
             
             <div className="space-y-2 group">
               <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Contact (Email or Phone)</label>
-              <input 
+              <input
                 required
                 type="text" // Changed to text to accommodate phone numbers
                 name="contact" // Add name attribute
                 value={form.contact}
                 onChange={(e) => setForm({...form, contact: e.target.value})}
-                className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
+                className="w-full bg-transparent border border-white/10 rounded-lg py-4 px-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
                 placeholder="you@domain.com or +1234567890"
               />
             </div>
 
             <div className="space-y-2 group">
               <label className="text-[10px] uppercase tracking-[0.3em] font-black text-neutral-600 group-focus-within:text-red-600 transition-colors">Subject</label>
-              <input 
+              <input
                 required
-                type="text" 
+                type="text"
                 name="subject" // Add name attribute
                 value={form.subject}
                 onChange={(e) => setForm({...form, subject: e.target.value})}
-                className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
+                className="w-full bg-transparent border border-white/10 rounded-lg py-4 px-4 text-white focus:outline-none focus:border-red-600 transition-all placeholder:text-neutral-800 text-lg font-medium"
                 placeholder="Briefly, what's your mission?"
               />
             </div>
@@ -179,15 +178,7 @@ const Contact: React.FC = () => {
               />
             </div>
             
-            {status && statusType !== "success" && ( // Display status messages if not success
-              <div className={`status-message text-center py-2 rounded-lg
-                ${statusType === "error" ? "bg-red-800 text-white" : ""}
-                ${statusType === "warning" ? "bg-yellow-800 text-white" : ""}
-                ${statusType === "loading" ? "bg-blue-800 text-white" : ""}
-              `}>
-                {status}
-              </div>
-            )}
+
             
             <button 
               disabled={statusType === "loading"} // Disable when sending
@@ -203,6 +194,7 @@ const Contact: React.FC = () => {
           </form>
         )}
       </motion.div>
+      <ToastContainer />
     </div>
   );
 };
