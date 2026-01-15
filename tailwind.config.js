@@ -19,6 +19,10 @@ export default {
            500: '#ff0000',
            600: '#d90000',
            900: '#5c0000',
+         },
+         orange: {
+           500: '#FFA500', // A standard orange
+           600: '#ED8900', // A slightly darker orange
          }
       }
     },

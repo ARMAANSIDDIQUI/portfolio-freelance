@@ -50,9 +50,21 @@ const Contact: React.FC = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark" // Black background for toasts
-        toastClassName={() => "relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer bg-neutral-800 text-white shadow-lg"}
-        bodyClassName={() => "text-sm font-white font-med block p-3"}
+        toastClassName={({ type }) => {
+          let colorClass;
+          switch (type) {
+            case 'success':
+              colorClass = 'bg-red-600';
+              break;
+            case 'error':
+              colorClass = 'bg-orange-600';
+              break;
+            default:
+              colorClass = 'bg-neutral-800'; // Black theme for others
+          }
+          return `relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer ${colorClass} text-white shadow-lg`;
+        }}
+        // bodyClassName={() => "text-sm font-white font-med block p-3"} // Removed bodyClassName
         progressClassName="fantansy-progress-bar"
       />
       <motion.div
