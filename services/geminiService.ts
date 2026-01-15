@@ -69,6 +69,8 @@ Your goal is to answer visitor questions based *only* on this data. If you don't
 export const getAIResponse = async (query: string): Promise<string> => {
   try {
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    console.log("API Key present:", !!apiKey); // Debug log
+
     if (!apiKey) {
       console.warn("Gemini API Key is missing");
       return "I am currently in maintenance mode (API Key missing). Please contact Armaan directly.";
@@ -96,7 +98,7 @@ export const getAIResponse = async (query: string): Promise<string> => {
     const response = await result.response;
     return response.text();
   } catch (error) {
-    console.error("Gemini API Error:", error);
+    console.error("Gemini API Full Error:", error); // Enhanced debug log
     return "I'm having trouble connecting to the neural network. Please try again in a moment.";
   }
 };
