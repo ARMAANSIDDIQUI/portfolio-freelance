@@ -6,7 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Contact: React.FC = () => {
-  const [form, setForm] = useState({ name: '', contact: '', subject: '', message: '' });
+  const [form, setForm] = useState({ name: '', contact: '', message: '' });
   const [status, setStatus] = useState(""); // For displaying messages to the user
   const [statusType, setStatusType] = useState(""); // success | error | warning | loading
 
@@ -46,7 +46,6 @@ const Contact: React.FC = () => {
         setStatus("");
         setStatusType("");
         setForm({ name: "", contact: "", message: "" }); // Clear the form
-        // Optional: Implement cooldown logic here (e.g., store timestamp in localStorage)
       } else {
         toast.error(data.message || "Failed to send. Try again later.");
         setStatus("");
