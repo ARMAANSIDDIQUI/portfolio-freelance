@@ -93,6 +93,30 @@ const AIConsultant: React.FC = () => {
             )}
           </div>
 
+          <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar mask-gradient">
+            {[
+              "Tell me about Adarsh Dham", 
+              "What is your tech stack?", 
+              "Do you know Machine Learning?", 
+              "How can I hire you?"
+            ].map((suggestion) => (
+              <button
+                key={suggestion}
+                onClick={() => {
+                  setMessages(prev => [...prev, { role: 'user', text: suggestion }]);
+                  setIsTyping(true);
+                  getAIResponse(suggestion).then(res => {
+                    setMessages(prev => [...prev, { role: 'ai', text: res }]);
+                    setIsTyping(false);
+                  });
+                }}
+                className="whitespace-nowrap px-3 py-1.5 bg-neutral-800 border border-white/10 rounded-full text-[10px] text-neutral-400 hover:bg-neutral-700 hover:text-white transition-colors flex-shrink-0"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+
           <form onSubmit={handleSend} className="p-4 bg-neutral-800/50 border-t border-white/5 flex gap-2">
             <input 
               type="text" 
