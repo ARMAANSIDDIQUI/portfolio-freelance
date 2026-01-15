@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// Removed: import { toast, ToastContainer } from 'react-toastify';
+// Removed: import 'react-toastify/dist/ReactToastify.css';
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
@@ -40,38 +40,13 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-24">
-      <ToastContainer 
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        toastClassName={({ type }) => {
-          let colorClass;
-          switch (type) {
-            case 'success':
-              colorClass = 'bg-red-600';
-              break;
-            case 'error':
-              colorClass = 'bg-orange-600';
-              break;
-            default:
-              colorClass = 'bg-neutral-800'; // Black theme for others
-          }
-          return `relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer ${colorClass} text-white shadow-lg`;
-        }}
-        // bodyClassName={() => "text-sm font-white font-med block p-3"} // Removed bodyClassName
-        progressClassName="fantansy-progress-bar"
-      />
+    <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-24 items-center py-20">
+
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
+        className="flex flex-col" 
       >
         <h2 className="text-xs font-black text-red-600 uppercase tracking-[0.5em] mb-8 italic">Transmission</h2>
         <h3 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-10 leading-tight">

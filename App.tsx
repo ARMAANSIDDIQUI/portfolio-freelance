@@ -8,6 +8,8 @@ import Contact from './components/Contact';
 import AIConsultant from './components/AIConsultant';
 import StarShower from './components/StarShower';
 import { motion } from 'framer-motion';
+import { ToastContainer } from 'react-toastify'; // Added
+import 'react-toastify/dist/ReactToastify.css'; // Added
 
 const App: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -78,6 +80,34 @@ const App: React.FC = () => {
       </footer>
 
       <AIConsultant />
+
+      {/* Moved ToastContainer to App.tsx to avoid layout issues */}
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName={({ type }) => {
+          let colorClass;
+          switch (type) {
+            case 'success':
+              colorClass = 'bg-red-600';
+              break;
+            case 'error':
+              colorClass = 'bg-orange-600';
+              break;
+            default:
+              colorClass = 'bg-neutral-800'; // Black theme for others
+          }
+          return `relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer ${colorClass} text-white shadow-lg`;
+        }}
+        progressClassName="fantansy-progress-bar"
+      />
     </div>
   );
 };
