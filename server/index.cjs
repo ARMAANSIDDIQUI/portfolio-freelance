@@ -71,8 +71,12 @@ app.post('/api/contact', async (req, res) => {
 // For Vercel, export the app
 module.exports = app;
 
-// In local development, you might also want to listen on a port
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//   console.log(`Server listening on port ${PORT}`);
-// });
+// In local development, listen on a port.
+// This condition ensures app.listen is ONLY called when running locally (node server/index.cjs),
+// and NOT when imported by Vercel as a serverless function.
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+  });
+}

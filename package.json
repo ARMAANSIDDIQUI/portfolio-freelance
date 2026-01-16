@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"node server/index.cjs\"",
+    "server": "node server/index.cjs",
     "build": "vite build",
     "preview": "vite preview"
   },
