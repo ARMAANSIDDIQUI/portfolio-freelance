@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
     // 4. Define email options (who is it from, to, subject, content)
     const mailOptions = {
       from: `"${name}" <${process.env.GMAIL_USER}>`, // The authenticated sender's email
-      to: 'armaansiddiqui.mbd@gmail.com', // **Your actual email address where you want to receive messages**
+      to: 'armaansiddiqui.pms@gmail.com', // **Your actual email address where you want to receive messages**
       replyTo: email, // Allows you to reply directly to the user's contact info
       subject: `Portfolio Contact from ${name}`, // Subject line for the email you receive
       text: `

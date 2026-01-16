@@ -35,7 +35,7 @@ app.post('/api/contact', async (req, res) => {
     // 4. Define email options
     const mailOptions = {
       from: `"${name}" <${process.env.GMAIL_USER}>`,
-      to: 'armaansiddiqui.mbd@gmail.com', // **Your actual email address where you want to receive messages**
+      to: 'armaansiddiqui.pms@gmail.com', // **Your actual email address where you want to receive messages**
       replyTo: email,
       subject: `Portfolio Contact from ${name}`,
       text: `

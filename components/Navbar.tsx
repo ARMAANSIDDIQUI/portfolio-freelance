@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Navbar3DLogo from './Navbar3DLogo';
 
 interface NavbarProps {
   scrolled: boolean;
@@ -24,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <a href="#hero" className="text-2xl font-black tracking-tighter flex items-center gap-2 group z-50 relative">
-          <div className="w-8 h-8 bg-red-600 rounded-sm transform group-hover:rotate-45 transition-transform duration-300"></div>
+          <Navbar3DLogo />
           <span className="group-hover:text-red-600 transition-colors">ARMAAN</span>
         </a>
 
