@@ -58,26 +58,26 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 lg:gap-24 items-center py-20">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 lg:gap-24 items-center py-12 md:py-20">
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         className="flex flex-col" 
       >
-        <h2 className="text-xs font-black text-red-600 uppercase tracking-[0.5em] mb-8 italic">Transmission</h2>
-        <h3 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-10 leading-tight">
+        <h2 className="text-[10px] md:text-xs font-black text-red-600 uppercase tracking-[0.5em] mb-6 md:mb-8 italic">Transmission</h2>
+        <h3 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-8 md:mb-10 leading-tight">
           READY TO <br />
           <span className="text-neutral-600">EVOLVE?</span>
         </h3>
-        <p className="text-neutral-400 text-xl leading-relaxed mb-12 max-w-md">
+        <p className="text-neutral-400 text-lg md:text-xl leading-relaxed mb-8 md:mb-12 max-w-md">
           Available for technical advisory, architectural reviews, and high-impact full-stack contracts.
         </p>
 
         <div className="space-y-8">
           <div>
             <div className="text-[10px] uppercase tracking-widest font-black text-red-600 mb-2">Direct Channel</div>
-            <a href="mailto:armaansiddiqui.pms@gmail.com" className="text-2xl font-black hover:text-red-500 transition-colors">armaansiddiqui.pms@gmail.com</a>
+            <a href="mailto:armaansiddiqui.pms@gmail.com" className="text-lg sm:text-2xl font-black hover:text-red-500 transition-colors break-all sm:break-normal">armaansiddiqui.pms@gmail.com</a>
           </div>
           <div className="flex gap-6">
              <a href="https://github.com/ARMAANSIDDIQUI" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-red-600 hover:bg-red-600 transition-all group">
@@ -97,7 +97,7 @@ const Contact: React.FC = () => {
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        className="bg-neutral-900 border border-white/5 p-6 md:p-14 rounded-[2.5rem] relative overflow-hidden"
+        className="bg-neutral-900 border border-white/5 p-5 md:p-14 rounded-[2rem] md:rounded-[2.5rem] relative overflow-hidden"
       >
         {/* <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl"></div> */}
         

@@ -68,7 +68,7 @@ h1, h2, h3, h4, .font-sora {
 .Toastify__toast-body.toast-body-dark {
   background-color: rgba(0, 0, 0, 0.95) !important; /* Slightly darker */
   color: #ffffff;
-  padding: 24px 85px 24px 30px !important; /* heavily increased right padding to completely clear the button */
+  padding: 24px 120px 24px 30px !important; /* further increased right padding to ensure no overlap */
   font-size: 1.1rem; /* Slightly larger text */
   border-radius: 9999px; /* Ensure inner body is rounded */
   box-sizing: border-box; /* Include padding in element's total width and height */

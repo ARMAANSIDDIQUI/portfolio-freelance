@@ -1,10 +1,21 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { PROJECTS } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ProjectCard: React.FC<{ project: typeof PROJECTS[0], index: number }> = ({ project, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // On mobile, content is always "active/hovered" style
+  const showContent = isMobile || isHovered;
 
   return (
     <motion.div 
@@ -21,7 +32,7 @@ const ProjectCard: React.FC<{ project: typeof PROJECTS[0], index: number }> = ({
         <iframe 
           src={project.liveUrl} 
           title={project.title}
-          className="w-full h-full border-0 opacity-50 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+          className={`w-full h-full border-0 transition-opacity duration-700 pointer-events-none ${isMobile ? 'opacity-50' : 'opacity-50 group-hover:opacity-100'}`}
           loading="lazy"
           scrolling="no"
         />
@@ -29,7 +40,7 @@ const ProjectCard: React.FC<{ project: typeof PROJECTS[0], index: number }> = ({
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 z-10 p-10 flex flex-col justify-end">
+      <div className="absolute inset-0 z-10 p-6 md:p-10 flex flex-col justify-end">
         <div className="mb-6 flex flex-wrap gap-2">
           {project.tech.map(t => (
             <span key={t} className="px-3 py-1 text-[9px] border border-red-600/30 bg-red-600/10 text-red-500 font-black uppercase tracking-widest rounded-full">
@@ -38,13 +49,13 @@ const ProjectCard: React.FC<{ project: typeof PROJECTS[0], index: number }> = ({
           ))}
         </div>
         
-        <h3 className="text-3xl font-black text-white mb-4 tracking-tighter uppercase group-hover:text-red-500 transition-colors">
+        <h3 className={`text-3xl font-black text-white mb-4 tracking-tighter uppercase transition-colors ${showContent ? 'text-red-500' : ''}`}>
           {project.title}
         </h3>
         
         <motion.p 
           initial={{ height: 0, opacity: 0 }}
-          animate={{ height: isHovered ? "auto" : 0, opacity: isHovered ? 1 : 0 }}
+          animate={{ height: showContent ? "auto" : 0, opacity: showContent ? 1 : 0 }}
           className="text-neutral-400 text-sm leading-relaxed mb-6 overflow-hidden"
         >
           {project.description}
@@ -58,8 +69,8 @@ const ProjectCard: React.FC<{ project: typeof PROJECTS[0], index: number }> = ({
       </div>
 
       {/* Hover Glow */}
-      <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div className={`absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent transition-opacity ${showContent ? 'opacity-100' : 'opacity-0'}`}></div>
+      <div className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent transition-opacity ${showContent ? 'opacity-100' : 'opacity-0'}`}></div>
     </motion.div>
   );
 };
