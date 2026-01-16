@@ -97,7 +97,7 @@ const Contact: React.FC = () => {
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        className="bg-neutral-900 border border-white/5 p-10 md:p-14 rounded-[2.5rem] relative overflow-hidden"
+        className="bg-neutral-900 border border-white/5 p-6 md:p-14 rounded-[2.5rem] relative overflow-hidden"
       >
         {/* <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl"></div> */}
         

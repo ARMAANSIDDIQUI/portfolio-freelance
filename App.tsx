@@ -77,7 +77,7 @@ const App: React.FC = () => {
         </motion.section>
       </main>
 
-      <footer className="py-10 border-t border-neutral-900 text-center text-neutral-500 text-sm">
+      <footer className="py-6 border-t border-neutral-900 text-center text-neutral-500 text-sm">
         <p>&copy; {new Date().getFullYear()} Armaan Siddiqui. Built for performance.</p>
       </footer>
 

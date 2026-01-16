@@ -37,11 +37,23 @@ h1, h2, h3, h4, .font-sora {
   perspective: 1000px;
 }
 
+/* Override default container width - Target specific position for higher specificity */
+.Toastify__toast-container--top-center {
+  width: auto !important;
+  min-width: 450px !important; /* Force a wider minimum */
+  max-width: 90vw !important;
+  padding: 0 !important; /* Reset padding to prevent layout issues */
+}
+
+/* Ensure the toast element fills the container */
 .Toastify__toast.toast-gradient-border {
   position: relative;
   overflow: hidden;
-  --angle: 0deg; /* Initialize custom property */
-  animation: rotateAngle 4s linear infinite; /* Animate the custom property */
+  --angle: 0deg;
+  animation: rotateAngle 4s linear infinite;
+  min-height: 80px;
+  width: 100% !important; /* Fill the container */
+  margin-bottom: 1rem !important; /* Add spacing between toasts */
 }
 
 .Toastify__toast.toast-gradient-border::before {
@@ -56,22 +68,34 @@ h1, h2, h3, h4, .font-sora {
 .Toastify__toast-body.toast-body-dark {
   background-color: rgba(0, 0, 0, 0.95) !important; /* Slightly darker */
   color: #ffffff;
-  padding: 20px 40px !important; /* Further increased padding */
+  padding: 24px 85px 24px 30px !important; /* heavily increased right padding to completely clear the button */
+  font-size: 1.1rem; /* Slightly larger text */
   border-radius: 9999px; /* Ensure inner body is rounded */
   box-sizing: border-box; /* Include padding in element's total width and height */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 /* For the close button, if it needs styling */
 .Toastify__close-button {
-  color: #fff;
-  opacity: 1;
-  background: none;
+  position: absolute !important;
+  right: 8px !important; /* Shift to the very right edge */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #fff !important;
+  opacity: 0.7;
+  background: transparent !important;
   border: none;
   font-size: 1.5rem;
   line-height: 1;
-  margin-right: 5px;
-  margin-top: 2px;
   font-weight: bold;
+  z-index: 50; /* Ensure it's above everything */
+  padding: 10px !important; /* Larger hit area */
+}
+.Toastify__close-button:hover {
+  opacity: 1;
 }
 
 /* For the progress bar */

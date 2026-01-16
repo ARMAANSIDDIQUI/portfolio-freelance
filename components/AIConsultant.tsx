@@ -52,7 +52,7 @@ const AIConsultant: React.FC = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="absolute bottom-20 right-0 w-[calc(100vw-2rem)] max-w-sm sm:max-w-md max-h-[80vh] md:w-[400px] md:h-[500px] md:bottom-20 md:right-0 bg-neutral-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
+        <div className="fixed bottom-24 left-4 right-4 h-[60vh] md:absolute md:inset-auto md:w-[400px] md:h-[500px] md:bottom-20 md:right-0 bg-neutral-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-300 z-[10000]">
           <div className="p-6 bg-neutral-800/50 border-b border-white/5 flex items-center gap-4">
             <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
