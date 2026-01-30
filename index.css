@@ -65,7 +65,7 @@ h1, h2, h3, h4, .font-sora {
   z-index: -1;
 }
 
-.Toastify__toast-body.toast-body-dark {
+.Toastify__toast.toast-gradient-border .Toastify__toast-body {
   background-color: rgba(0, 0, 0, 0.95) !important; /* Slightly darker */
   color: #ffffff;
   padding: 24px 120px 24px 30px !important; /* further increased right padding to ensure no overlap */

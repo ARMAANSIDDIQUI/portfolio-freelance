@@ -3,6 +3,15 @@ import { Project, SkillCategory } from './types';
 
 export const PROJECTS: Project[] = [
   {
+    id: '7',
+    title: 'Honest Graphics & Printers',
+    description: 'High-quality print solutions featuring a dual light/dark theme, lightweight 3D physics engine, and secure e-commerce functionality with Google OAuth.',
+    tech: ['React', 'Google OAuth', 'Dual Theme', 'Lightweight 3D Physics', 'E-commerce', 'Security'],
+    imageUrl: '',
+    liveUrl: 'https://honestprinters.in/',
+    githubUrl: '#'
+  },
+  {
     id: '1',
     title: 'Adarsh Dham',
     description: 'Full-stack ashram management portal featuring booking calendars and a real-time tree-view system.',
@@ -21,21 +30,21 @@ export const PROJECTS: Project[] = [
     githubUrl: '#'
   },
   {
-    id: '3',
-    title: 'Rotary Club Sanskriti',
-    description: 'Dynamic organization website with a full admin panel, CRUD operations, and automated email services.',
-    tech: ['React.js', 'Node.js', 'MongoDB', 'Tailwind'],
-    imageUrl: '',
-    liveUrl: 'https://www.rotaryclubsanskritimoradabad.org/',
-    githubUrl: '#'
-  },
-  {
     id: '4',
     title: 'Jyotidham Toronto',
     description: 'International Ashram Portal featuring dynamic content updates and Google Maps API integration.',
     tech: ['React', 'Maps API', 'Dynamic Content'],
     imageUrl: '',
     liveUrl: 'https://jyotidham.ca/',
+    githubUrl: '#'
+  },
+  {
+    id: '3',
+    title: 'Rotary Club Sanskriti',
+    description: 'Dynamic organization website with a full admin panel, CRUD operations, and automated email services.',
+    tech: ['React.js', 'Node.js', 'MongoDB', 'Tailwind'],
+    imageUrl: '',
+    liveUrl: 'https://www.rotaryclubsanskritimoradabad.org/',
     githubUrl: '#'
   },
   {
